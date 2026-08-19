@@ -109,18 +109,20 @@ export default function ProjectCarousel({ medallionShape = "rect", showCatalogNu
           {active.name}
         </h2>
         <div className="h-px w-14 bg-gradient-to-r from-[rgba(215,217,222,.7)] to-transparent" />
-        <p className="m-0 min-h-[13rem] max-w-[44ch] text-base leading-relaxed text-paper-300 text-pretty">{active.overview}</p>
-        <p className="m-0 font-mono text-xs leading-loose tracking-[.08em] text-paper-500">{active.meta}</p>
-        {active.link && (
-          <a
-            href={active.link}
-            target="_blank"
-            rel="noreferrer"
-            className="w-fit border-b border-[#c8cad0]/35 font-mono text-xs tracking-[.08em] text-[#c8cad0] no-underline hover:border-[#f0f1f3]/70 hover:text-[#f0f1f3]"
-          >
-            Visit site ↗
-          </a>
-        )}
+        <p className="m-0 min-h-[13rem] text-base leading-relaxed text-paper-300 text-pretty">{active.overview}</p>
+        <p className="m-0 min-h-[3rem] font-mono text-xs leading-loose tracking-[.08em] text-paper-500">{active.meta}</p>
+        <div className="min-h-[1.5em]">
+          {active.link && (
+            <a
+              href={active.link}
+              target="_blank"
+              rel="noreferrer"
+              className="w-fit border-b border-[#c8cad0]/35 font-mono text-xs tracking-[.08em] text-[#c8cad0] no-underline hover:border-[#f0f1f3]/70 hover:text-[#f0f1f3]"
+            >
+              Visit site ↗
+            </a>
+          )}
+        </div>
         <div className="mt-3 flex items-center gap-4">
           {[
             { d: -1, glyph: "↑" },
