@@ -1,40 +1,26 @@
-import { useCallback, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import ImageSlot from "./ImageSlot.jsx";
 import Ransom from "./Ransom.jsx";
 import { createDrag } from "../lib/drag.js";
-import fraudImg from "../assets/fraud_detection.png";
-import ragImg from "../assets/RagNote.png";
-import safeImg from "../assets/SafeNest.png";
 
-const PROJECT_CARDS = [
-  { src: safeImg, label: "SafeNest", rotate: "-6deg", tx: "-6px", ty: "4px" },
-  { src: ragImg, label: "RagNote", rotate: "3deg", tx: "4px", ty: "2px" },
-  { src: fraudImg, label: "FraudDet.", rotate: "0deg", tx: "0px", ty: "0px" },
-];
-
-const POS_KEY = "an-phung-tin-positions-v2";
 const DEFAULT_POS = {
-  about: { x: 2, y: 3 },
-  cv: { x: 2, y: 62 },
-  contact: { x: 49, y: 5 },
-  ring: { x: 49, y: 21 },
-  lighter: { x: 74, y: 21 },
-  projects: { x: 49, y: 76 },
+  contact:    { x: 5.4,  y: 7.5  },
+  cv:         { x: 7.6,  y: 50.1 },
+  experience: { x: 42,   y: 80   },
+  projects:   { x: 59.7, y: 9.3  },
 };
-const POLAROID_HOME = { x: 5, y: 4 };
 
-function loadPos() {
-  try {
-    const raw = localStorage.getItem(POS_KEY);
-    if (raw) return { ...DEFAULT_POS, ...JSON.parse(raw) };
-  } catch {}
-  return DEFAULT_POS;
-}
+const PAPER_3  = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' seed='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23p)' opacity='0.16'/%3E%3C/svg%3E\")";
+const PAPER_6  = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' seed='6'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23p)' opacity='0.16'/%3E%3C/svg%3E\")";
+const PAPER_9  = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' seed='9'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23p)' opacity='0.16'/%3E%3C/svg%3E\")";
+const PAPER_11 = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' seed='11'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23p)' opacity='0.16'/%3E%3C/svg%3E\")";
+const RECEIPT_EDGE = "polygon(0% 0%, 100% 0%, 100% 95%, 92% 100%, 83% 95%, 75% 100%, 67% 95%, 58% 100%, 50% 95%, 42% 100%, 33% 95%, 25% 100%, 17% 95%, 8% 100%, 0% 95%)";
+const POLAROID_HOME = { x: 5, y: 15 };
 
 /** Closed tin → tap the lid → the lid flips up and the objects inside become the navigation. */
-export default function TrinketBox({ collageWords = "about me / an phung / designer" }) {
+export default function TrinketBox({ collageWords = "about me / an phung" }) {
   const [open, setOpen] = useState(false);
-  const [pos, setPos] = useState(loadPos);
+  const [pos, setPos] = useState(DEFAULT_POS);
   const [polaroid, setPolaroid] = useState(POLAROID_HOME);
   const [lifted, setLifted] = useState(null);
   const tray = useRef(null);
@@ -46,19 +32,12 @@ export default function TrinketBox({ collageWords = "about me / an phung / desig
     setLifted(null);
   };
 
-  const savePos = useCallback((next) => {
-    try {
-      localStorage.setItem(POS_KEY, JSON.stringify(next));
-    } catch {}
-  }, []);
-
   const item = (id, href) => ({
     "data-draggable": true,
     onPointerDown: createDrag({
       containerRef: tray,
       onLift: () => setLifted(id),
       onMove: (p) => setPos((s) => ({ ...s, [id]: p })),
-      onEnd: () => setPos((s) => (savePos(s), s)),
       onClick: () => href && (window.location.hash = href),
     }),
     style: { left: `${pos[id].x}%`, top: `${pos[id].y}%`, zIndex: lifted === id ? 9 : 4 },
@@ -91,101 +70,80 @@ export default function TrinketBox({ collageWords = "about me / an phung / desig
             <div
               ref={tray}
               className="velvet absolute inset-[22px] overflow-hidden rounded-[14px] shadow-[0_-2px_5px_rgba(255,255,255,.2)_inset,0_6px_14px_rgba(0,0,0,.5)_inset]"
+              style={{ containerType: "size" }}
             >
-              {/* about me collage card */}
+              {/* engraved name card → contact */}
               <div
-                {...item("about", "#about")}
-                className={`absolute flex w-[44%] flex-col gap-[3px] bg-gradient-to-b from-[rgba(20,18,22,.86)] to-[rgba(20,18,22,.68)] px-2 py-1.5 shadow-[0_5px_14px_rgba(0,0,0,.6)] ${grab}`}
+                {...item("contact", "#contact")}
+                className={`absolute aspect-[1.72/1] w-[40%] -rotate-[1.4deg] bg-[linear-gradient(152deg,#cdcfd4_0%,#8d9096_32%,#b2b5bb_54%,#75787e_78%,#a9acb2_100%)] p-[5px] shadow-[0_6px_16px_rgba(0,0,0,.55)] ${grab}`}
               >
-                <Ransom words={collageWords} base={7} />
+                <div className="flex h-full w-full flex-col justify-between border border-white/20 px-2 py-1.5 shadow-[0_1px_0_rgba(255,255,255,.3)_inset]">
+                  <div className="flex flex-col gap-[2px]">
+                    <span className="engraved font-display text-[10px] font-semibold tracking-[.14em] uppercase">An Phung</span>
+                    <span className="font-mono text-[6px] tracking-[.2em] text-[#7f8288] uppercase">contact</span>
+                  </div>
+                  <span className="font-mono text-[6px] tracking-[.1em] text-[#82858b]">Vancouver, BC</span>
+                </div>
               </div>
 
-              {/* cv receipt */}
-              <div
-                {...item("cv", "#cv")}
-                className={`receipt-edge absolute flex w-[24%] flex-col gap-[3px] bg-gradient-to-b from-[#f6f3ea] to-[#e7e2d5] px-1.5 pt-[5px] pb-2.5 text-[#231f1e] shadow-[0_5px_14px_rgba(0,0,0,.55)] ${grab}`}
+              {/* receipt → cv */}
+              {(() => {
+                const cvItem = item("cv", "#cv");
+                return <div
+                {...cvItem}
+                className={`absolute flex w-[22%] flex-col gap-[3px] rotate-[1.6deg] px-[6px] pt-[6px] pb-[10px] text-[#2c2620] shadow-[0_6px_16px_rgba(0,0,0,.5)] ${grab}`}
+                style={{
+                  ...cvItem.style,
+                  clipPath: RECEIPT_EDGE,
+                  backgroundColor: "#f4f1e7",
+                  backgroundImage: `${PAPER_9}, linear-gradient(180deg,#f8f5ec,#e9e4d5)`,
+                }}
               >
-                <span className="text-center font-mono text-[6px] tracking-[.16em] uppercase">curriculum vitae</span>
-                <span className="block h-px bg-[repeating-linear-gradient(90deg,#231f1e_0_2px,transparent_2px_4px)]" />
-                <span className="flex justify-between font-mono text-[6px]">
-                  <span>an phung</span>
-                  <span>pdf</span>
+                <span className="text-center font-mono text-[5px] tracking-[.16em] uppercase">curriculum vitae</span>
+                <span className="block h-px bg-[repeating-linear-gradient(90deg,#2c2620_0_2px,transparent_2px_4px)]" />
+                <span className="flex justify-between font-mono text-[5px]"><span>an phung</span><span>pdf</span></span>
+                <span className="flex justify-between font-mono text-[5px]"><span>planview</span><span>2026</span></span>
+                <span className="flex justify-between font-mono text-[5px]"><span>thang long</span><span>2024</span></span>
+                <span className="block h-px bg-[repeating-linear-gradient(90deg,#2c2620_0_2px,transparent_2px_4px)]" />
+                <span className="text-center font-mono text-[5px] tracking-[.16em] uppercase">tap to open</span>
+              </div>;
+              })()}
+
+              {/* brass tag → experience */}
+              <div
+                {...item("experience", "#experience")}
+                className={`absolute flex w-[22%] items-center gap-[6px] rounded-full -rotate-[2.2deg] bg-[linear-gradient(150deg,#e6cd7a_0%,#b8942f_38%,#d8bd60_62%,#8f6f18_100%)] py-[5px] px-[8px] shadow-[0_5px_14px_rgba(0,0,0,.5),0_1px_0_rgba(255,255,255,.4)_inset] ${grab}`}
+              >
+                <span className="block h-[7px] w-[7px] shrink-0 rounded-full bg-[#4a3808] shadow-[0_1px_0_rgba(255,255,255,.35)]" />
+                <span className="font-mono text-[6px] tracking-[.16em] text-[#5a4406] uppercase [text-shadow:0_1px_0_rgba(255,255,255,.35)]">
+                  experience
                 </span>
-                <span className="text-center font-mono text-[6px] tracking-[.18em] uppercase">tap to open</span>
               </div>
 
-              {/* contact + projects word clusters */}
-              {/* mini visit card */}
-              {(() => {
-                const contactItem = item("contact", "#contact");
-                return (
-                  <div
-                    {...contactItem}
-                    className={`absolute w-[30%] ${grab}`}
-                  >
-                    <div className="relative metal-plaque rounded-[4px] shadow-[0_4px_12px_rgba(0,0,0,.6)]" style={{ aspectRatio: "1.75 / 1" }}>
-                      <div className="absolute inset-[4px] rounded-[2px] border border-white/20 flex flex-col justify-between px-[6px] py-[5px] shadow-[0_1px_0_rgba(255,255,255,.35)_inset]">
-                        <div>
-                          <p className="m-0 engraved font-display font-semibold tracking-[.12em] uppercase" style={{ fontSize: "clamp(4px,1.2vw,7px)" }}>An Phung</p>
-                          <p className="m-0 font-mono text-[#75787e] tracking-[.14em] uppercase" style={{ fontSize: "clamp(3px,.7vw,5px)" }}>Software Engineer</p>
-                        </div>
-                        <div className="h-px w-full bg-gradient-to-r from-[rgba(255,255,255,.15)] to-transparent" />
-                          <p className="m-0 font-mono text-[#82858b] tracking-[.06em]" style={{ fontSize: "clamp(3px,.65vw,5px)" }}>phungtranthuan2005@gmail.com </p>
-                          <p className="m-0 font-mono text-[#82858b] tracking-[.06em]" style={{ fontSize: "clamp(3px,.65vw,5px)" }}>linkedin.com/in/anthu2708 </p>
-                          <p className="m-0 font-mono text-[#82858b] tracking-[.06em]" style={{ fontSize: "clamp(3px,.65vw,5px)" }}>github.com/anthu2708 </p>
-                          <p className="m-0 font-mono text-[#82858b] tracking-[.06em]" style={{ fontSize: "clamp(3px,.65vw,5px)" }}>"+16725582708" </p>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })()}
-              {/* stacked project cards tied with twine */}
-              {(() => {
-                const projectItem = item("projects", "#projects");
-                return (
-                  <div {...projectItem} className={`absolute w-[28%] ${grab}`} style={{ ...projectItem.style, aspectRatio: "3/4" }}>
-                    {PROJECT_CARDS.map((card, i) => (
-                      <div
-                        key={card.label}
-                        className="absolute inset-0 overflow-hidden shadow-[0_6px_18px_rgba(0,0,0,.7)]"
-                        style={{ transform: `rotate(${card.rotate}) translate(${card.tx}, ${card.ty})`, zIndex: i }}
-                      >
-                        <img src={card.src} alt={card.label} className="h-full w-full object-cover" draggable={false} />
-                      </div>
-                    ))}
-
-                    {/* string */}
-                    <div
-                      className="absolute left-0 right-0 pointer-events-none"
-                      style={{ top: "54%", zIndex: 10, height: "2px", background: "#111", boxShadow: "0 1px 3px rgba(0,0,0,0.8)" }}
-                    />
-                  </div>
-                );
-              })()}
-
-              {/* trinkets: metal grab bar on top, droppable photo below */}
-              {[
-                { id: "ring", label: "ring" },
-                { id: "lighter", label: "lighter" },
-              ].map((t) => {
-                const props = item(t.id, null);
-                return (
-                  <div
-                    key={t.id}
-                    data-draggable
-                    style={props.style}
-                    className="absolute flex w-[24%] flex-col items-center gap-1 select-none"
-                  >
-                    <span
-                      onPointerDown={props.onPointerDown}
-                      className={`metal-strip block h-2.5 w-full shadow-[0_1px_0_rgba(255,255,255,.4)_inset,0_2px_5px_rgba(0,0,0,.5)] ${grab}`}
-                    />
-                    <span className="relative block aspect-square w-full shadow-[0_4px_10px_rgba(0,0,0,.6)]">
-                      <ImageSlot id={`trinket-${t.id}`} placeholder={t.label} />
-                    </span>
-                  </div>
-                );
-              })}
+              {/* paper stack → projects */}
+              <div {...item("projects", "#projects")} className={`absolute aspect-[3/4] w-[31%] ${grab}`}>
+                {[
+                  { rotate: "-5.5deg", tx: "-4%", ty: "2%", tex: PAPER_3,  top: "#f8f6ee", bottom: "#e6e2d6" },
+                  { rotate: "3deg",    tx: "3%",  ty: "1%", tex: PAPER_6,  top: "#faf8f1", bottom: "#e9e5d9" },
+                ].map((sheet, i) => (
+                  <span
+                    key={i}
+                    className="absolute inset-0 shadow-[0_6px_16px_rgba(0,0,0,.45)]"
+                    style={{
+                      transform: `rotate(${sheet.rotate}) translate(${sheet.tx}, ${sheet.ty})`,
+                      backgroundImage: `${sheet.tex}, linear-gradient(170deg,${sheet.top},${sheet.bottom})`,
+                    }}
+                  />
+                ))}
+                <span
+                  className="absolute inset-0 flex items-end justify-end px-[7%] pb-[5%] shadow-[0_8px_20px_rgba(0,0,0,.5)]"
+                  style={{ backgroundImage: `${PAPER_11}, linear-gradient(170deg,#fcfaf4,#ece8dc)` }}
+                >
+                  <span className="text-[18px] text-[#2a2218]" style={{ fontFamily: "Signerica, 'Ms Madi', cursive" }}>
+                    projects
+                  </span>
+                </span>
+              </div>
             </div>
           </div>
 
@@ -214,6 +172,14 @@ export default function TrinketBox({ collageWords = "about me / an phung / desig
                 className="velvet absolute inset-5 overflow-hidden rounded-[14px] shadow-[0_-2px_5px_rgba(255,255,255,.2)_inset,0_6px_14px_rgba(0,0,0,.5)_inset]"
                 style={{ visibility: open ? "visible" : "hidden" }}
               >
+                {/* about me collage — upper right of polaroid */}
+                <div
+                  className={`absolute flex w-[44%] flex-col gap-[3px] bg-gradient-to-b from-[rgba(20,18,22,.86)] to-[rgba(20,18,22,.68)] px-2 py-1.5 shadow-[0_5px_14px_rgba(0,0,0,.6)]`}
+                  style={{ left: "50%", top: "12%" }}
+                >
+                  <Ransom words={collageWords} base={7} />
+                </div>
+
                 {/* draggable polaroid */}
                 <div
                   data-draggable
@@ -223,7 +189,7 @@ export default function TrinketBox({ collageWords = "about me / an phung / desig
                   <span onPointerDown={dragPolaroid} className={`absolute -top-[7px] -left-[9%] h-[15px] w-[34%] rotate-[-7deg] bg-[rgba(238,232,214,.5)] shadow-[0_1px_3px_rgba(0,0,0,.35)] ${grab}`} />
                   <span onPointerDown={dragPolaroid} className={`absolute -top-[7px] -right-[9%] h-[15px] w-[34%] rotate-[6deg] bg-[rgba(238,232,214,.5)] shadow-[0_1px_3px_rgba(0,0,0,.35)] ${grab}`} />
                   <div className="relative aspect-square w-full bg-[#151517] shadow-[0_1px_3px_rgba(0,0,0,.5)_inset]">
-                    <ImageSlot id="lid-polaroid" placeholder="portrait" />
+                    <div className="h-full w-full flex items-center justify-center font-mono text-[8px] tracking-[.12em] text-[#4a4a4a] uppercase">portrait</div>
                   </div>
                   <span onPointerDown={dragPolaroid} className={`block h-3 ${grab}`} />
                 </div>
@@ -232,7 +198,7 @@ export default function TrinketBox({ collageWords = "about me / an phung / desig
                 <div
                   className="absolute flex flex-col gap-[5px] shadow-[2px_4px_12px_rgba(0,0,0,.45),-1px_-1px_4px_rgba(0,0,0,.2)]"
                   style={{
-                    right: "4%", top: "6%", width: "50%",
+                    right: "4%", top: "33%", width: "50%",
                     background: "linear-gradient(168deg,#f6f3ea 0%,#ede8d8 40%,#e8e3d2 60%,#f0ebd9 100%)",
                     transform: "rotate(1.8deg) skewY(-0.4deg)",
                     padding: "6% 7%",

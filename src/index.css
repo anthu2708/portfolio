@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Signerica";
+  src: url("./assets/fonts/Signerica_Fat.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 @theme {
   --font-display: "Cinzel", serif;
   --font-body: "Spectral", Georgia, serif;
@@ -25,25 +32,25 @@ body {
 
 /* --- Metal surfaces (kept in CSS: long gradient stacks are unreadable as utilities) --- */
 .metal-base {
-  background-color: #8f9399;
+  background-color: #b0b3b8;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='h'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.05' numOctaves='3' seed='4'/%3E%3CfeDiffuseLighting lighting-color='%23bcbfc5' surfaceScale='3'%3E%3CfeDistantLight azimuth='235' elevation='56'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='420' height='420' filter='url(%23h)'/%3E%3C/svg%3E"),
-    linear-gradient(160deg, #c9cbd0 0%, #82858b 26%, #adb0b6 46%, #6a6d73 70%, #a2a5ab 100%);
+    linear-gradient(160deg, #dcdee2 0%, #a8abb1 26%, #c8cace 46%, #9a9da3 70%, #c2c5cb 100%);
   background-size: 420px 420px, 100% 100%;
-  background-blend-mode: overlay, normal;
+  background-blend-mode: soft-light, normal;
 }
 .metal-lid {
-  background-color: #8f9399;
+  background-color: #b8bbc0;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='h'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.05' numOctaves='3' seed='9'/%3E%3CfeDiffuseLighting lighting-color='%23c0c3c9' surfaceScale='3.4'%3E%3CfeDistantLight azimuth='225' elevation='54'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='420' height='420' filter='url(%23h)'/%3E%3C/svg%3E"),
-    linear-gradient(155deg, #d2d4d9 0%, #8a8d93 24%, #b4b7bd 46%, #70737a 70%, #a8abb1 100%);
+    linear-gradient(155deg, #e2e4e8 0%, #b0b3b9 24%, #d0d3d8 46%, #a0a3a9 70%, #cccfd4 100%);
   background-size: 420px 420px, 100% 100%;
-  background-blend-mode: overlay, normal;
+  background-blend-mode: soft-light, normal;
 }
 .metal-lid-back {
-  background-color: #8b8f95;
+  background-color: #b0b3b8;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='h'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.06' numOctaves='3' seed='2'/%3E%3CfeDiffuseLighting lighting-color='%23b6b9bf' surfaceScale='2.4'%3E%3CfeDistantLight azimuth='215' elevation='50'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='420' height='420' filter='url(%23h)'/%3E%3C/svg%3E"),
-    linear-gradient(155deg, #b9bcc1 0%, #7c7f85 30%, #a3a6ac 52%, #666a70 78%, #9a9da3 100%);
+    linear-gradient(155deg, #d8dadf 0%, #a4a7ad 30%, #c4c7cc 52%, #96999f 78%, #c0c3c8 100%);
   background-size: 420px 420px, 100% 100%;
-  background-blend-mode: overlay, normal;
+  background-blend-mode: soft-light, normal;
 }
 .metal-plaque {
   background-color: #8f9399;
