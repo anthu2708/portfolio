@@ -21,15 +21,20 @@ const POLAROID_HOME = { x: 5, y: 15 };
 export default function TrinketBox({ collageWords = "about me / an phung" }) {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState(DEFAULT_POS);
-  const [polaroid, setPolaroid] = useState(POLAROID_HOME);
   const [lifted, setLifted] = useState(null);
   const tray = useRef(null);
   const lidTray = useRef(null);
 
   const toggle = () => {
     setOpen((o) => !o);
-    setPolaroid(POLAROID_HOME);
     setLifted(null);
+  };
+
+  const goTo = (href) => {
+    if (!href) return;
+    const el = document.getElementById(href.slice(1));
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (window.location.hash !== href) window.history.pushState(null, "", href);
   };
 
   const item = (id, href) => ({
@@ -38,15 +43,9 @@ export default function TrinketBox({ collageWords = "about me / an phung" }) {
       containerRef: tray,
       onLift: () => setLifted(id),
       onMove: (p) => setPos((s) => ({ ...s, [id]: p })),
-      onClick: () => href && (window.location.hash = href),
+      onClick: () => goTo(href),
     }),
     style: { left: `${pos[id].x}%`, top: `${pos[id].y}%`, zIndex: lifted === id ? 9 : 4 },
-  });
-
-  const dragPolaroid = createDrag({
-    containerRef: lidTray,
-    onLift: () => setLifted("polaroid"),
-    onMove: setPolaroid,
   });
 
   // The tin shrinks with the viewport so lid + base stay centred when open.
@@ -57,7 +56,7 @@ export default function TrinketBox({ collageWords = "about me / an phung" }) {
   return (
     <section className="relative flex min-h-screen flex-col items-center justify-center gap-11 px-8 pt-18 pb-24">
       <p className="m-0 font-mono text-[11px] tracking-[.34em] text-[#7e828b] uppercase">
-        An Phung — a collection of artifacts
+        An Phung - a collection of artifacts
       </p>
 
       <div
@@ -90,29 +89,34 @@ export default function TrinketBox({ collageWords = "about me / an phung" }) {
               {(() => {
                 const cvItem = item("cv", "#cv");
                 return <div
-                {...cvItem}
-                className={`absolute flex w-[34%] flex-col gap-[3px] rotate-[1.6deg] px-[6px] pt-[6px] pb-[10px] text-[#2c2620] shadow-[0_6px_16px_rgba(0,0,0,.5)] ${grab}`}
-                style={{
-                  ...cvItem.style,
-                  containerType: "inline-size",
-                  clipPath: RECEIPT_EDGE,
-                  backgroundColor: "#f4f1e7",
-                  backgroundImage: `${PAPER_9}, linear-gradient(180deg,#f8f5ec,#e9e4d5)`,
-                }}
-              >
-                <span className="text-center font-mono text-[5cqw] tracking-[.16em] uppercase">curriculum vitae</span>
-                <span className="block h-px bg-[repeating-linear-gradient(90deg,#2c2620_0_2px,transparent_2px_4px)]" />
-                <span className="flex justify-between font-mono text-[5cqw]"><span>an phung</span><span>pdf</span></span>
-                <span className="flex justify-between font-mono text-[5cqw]"><span>planview</span><span>2026</span></span>
-                <span className="flex justify-between font-mono text-[5cqw]"><span>thang long</span><span>2024</span></span>
-                <span className="block h-px bg-[repeating-linear-gradient(90deg,#2c2620_0_2px,transparent_2px_4px)]" />
-                <span className="text-center font-mono text-[5cqw] tracking-[.16em] uppercase">tap to open</span>
-              </div>;
+                    {...cvItem}
+                    className={`absolute flex w-[34%] flex-col gap-[3px] rotate-[1.6deg] px-[6px] pt-[6px] pb-[10px] text-[#2c2620] shadow-[0_6px_16px_rgba(0,0,0,.5)] ${grab}`}
+                    style={{
+                      ...cvItem.style,
+                      containerType: "inline-size",
+                      clipPath: RECEIPT_EDGE,
+                      backgroundColor: "#f4f1e7",
+                      backgroundImage: `${PAPER_9}, linear-gradient(180deg,#f8f5ec,#e9e4d5)`,
+                    }}
+                >
+                  <span className="text-center font-mono text-[5cqw] tracking-[.16em] uppercase">curriculum vitae</span>
+                  <span className="block h-px bg-[repeating-linear-gradient(90deg,#2c2620_0_2px,transparent_2px_4px)]"/>
+                  <span
+                      className="flex justify-between font-mono text-[5cqw]"><span>an phung</span><span>pdf</span></span>
+                  <span
+                      className="flex justify-between font-mono text-[5cqw]"><span>ubc</span><span>2028</span></span>
+
+                  <span
+                      className="flex justify-between font-mono text-[5cqw]"><span>planview</span><span>2026</span></span>
+                  <span className="flex justify-between font-mono text-[5cqw]"><span>thang long</span><span>2024</span></span>
+                  <span className="block h-px bg-[repeating-linear-gradient(90deg,#2c2620_0_2px,transparent_2px_4px)]"/>
+                  <span className="text-center font-mono text-[5cqw] tracking-[.16em] uppercase">tap to open</span>
+                </div>;
               })()}
 
               {/* brass tag → experience */}
               <div
-                {...item("experience", "#experience")}
+                  {...item("experience", "#experience")}
                 className={`absolute flex w-[22%] items-center gap-[6px] rounded-full -rotate-[2.2deg] bg-[linear-gradient(150deg,#e6cd7a_0%,#b8942f_38%,#d8bd60_62%,#8f6f18_100%)] py-[5px] px-[8px] shadow-[0_5px_14px_rgba(0,0,0,.5),0_1px_0_rgba(255,255,255,.4)_inset] ${grab}`}
               >
                 <span className="block h-[7px] w-[7px] shrink-0 rounded-full bg-[#4a3808] shadow-[0_1px_0_rgba(255,255,255,.35)]" />
@@ -173,7 +177,7 @@ export default function TrinketBox({ collageWords = "about me / an phung" }) {
                 className="velvet absolute inset-5 overflow-hidden rounded-[14px] shadow-[0_-2px_5px_rgba(255,255,255,.2)_inset,0_6px_14px_rgba(0,0,0,.5)_inset]"
                 style={{ visibility: open ? "visible" : "hidden" }}
               >
-                {/* about me collage — upper right of polaroid */}
+                {/* about me collage - upper right of polaroid */}
                 <div
                   className={`absolute flex w-[44%] flex-col gap-[3px] bg-gradient-to-b from-[rgba(20,18,22,.86)] to-[rgba(20,18,22,.68)] px-2 py-1.5 shadow-[0_5px_14px_rgba(0,0,0,.6)]`}
                   style={{ left: "50%", top: "12%" }}
@@ -181,21 +185,20 @@ export default function TrinketBox({ collageWords = "about me / an phung" }) {
                   <Ransom words={collageWords} base={7} />
                 </div>
 
-                {/* draggable polaroid */}
+                {/* polaroid */}
                 <div
-                  data-draggable
                   className="absolute w-[36%] bg-gradient-to-b from-[#fbfaf6] to-[#eceade] px-1 pt-1 pb-3.5 shadow-[0_8px_18px_rgba(0,0,0,.55)] select-none"
-                  style={{ left: `${polaroid.x}%`, top: `${polaroid.y}%`, transform: "rotate(-2.4deg)" }}
+                  style={{ left: `${POLAROID_HOME.x}%`, top: `${POLAROID_HOME.y}%`, transform: "rotate(-2.4deg)" }}
                 >
-                  <span onPointerDown={dragPolaroid} className={`absolute -top-[7px] -left-[9%] h-[15px] w-[34%] rotate-[-7deg] bg-[rgba(238,232,214,.5)] shadow-[0_1px_3px_rgba(0,0,0,.35)] ${grab}`} />
-                  <span onPointerDown={dragPolaroid} className={`absolute -top-[7px] -right-[9%] h-[15px] w-[34%] rotate-[6deg] bg-[rgba(238,232,214,.5)] shadow-[0_1px_3px_rgba(0,0,0,.35)] ${grab}`} />
+                  <span className="absolute -top-[7px] -left-[9%] h-[15px] w-[34%] rotate-[-7deg] bg-[rgba(238,232,214,.5)] shadow-[0_1px_3px_rgba(0,0,0,.35)]" />
+                  <span className="absolute -top-[7px] -right-[9%] h-[15px] w-[34%] rotate-[6deg] bg-[rgba(238,232,214,.5)] shadow-[0_1px_3px_rgba(0,0,0,.35)]" />
                   <div className="relative aspect-square w-full bg-[#151517] shadow-[0_1px_3px_rgba(0,0,0,.5)_inset]">
-                    <div className="h-full w-full flex items-center justify-center font-mono text-[8px] tracking-[.12em] text-[#4a4a4a] uppercase">portrait</div>
+                    <ImageSlot id="polaroid-portrait" placeholder="portrait" defaultSrc="/portrait.jpg" imgPosition="50% 12%" />
                   </div>
-                  <span onPointerDown={dragPolaroid} className={`block h-3 ${grab}`} />
+                  <span className="block h-3" />
                 </div>
 
-                {/* crumpled receipt note — right */}
+                {/* crumpled receipt note - right */}
                 <div
                   className="absolute flex flex-col gap-[5px] shadow-[2px_4px_12px_rgba(0,0,0,.45),-1px_-1px_4px_rgba(0,0,0,.2)]"
                   style={{
@@ -218,7 +221,7 @@ export default function TrinketBox({ collageWords = "about me / an phung" }) {
                   <p className="relative m-0 font-mono text-[#5a5040] uppercase" style={{ fontSize: "clamp(4px,.8vw,6px)", letterSpacing: ".16em" }}>CS @ UBC · Software Engineer</p>
                   <div className="relative my-[3px] h-px bg-[rgba(0,0,0,.12)]" />
                   <p className="relative m-0 font-body text-[#3d3628] leading-relaxed text-pretty" style={{ fontSize: "clamp(5px,1vw,8px)" }}>
-                    No text yet — replace this with your introduction: what you do, what you care about, what you are looking for.
+                    Software engineer interested in systems, products, and the details in between. I build backend infrastructure, experiment with new ideas, and care a little too much about how things look and feel.
                   </p>
                 </div>
               </div>
@@ -232,11 +235,11 @@ export default function TrinketBox({ collageWords = "about me / an phung" }) {
           onClick={toggle}
           className="animate-breathe cursor-pointer border-0 bg-transparent p-0 font-mono text-xs tracking-[.28em] text-[#8b8f98] uppercase"
         >
-          {open ? "scroll down ↓" : "tap to open the tin"}
+          {open ? "tap or drag the items above" : "tap to open the tin"}
         </button>
         {open && (
           <p className="m-0 font-mono text-[10px] tracking-[.26em] text-paper-500 uppercase">
-            tap the image or the words inside
+            scroll down ↓
           </p>
         )}
       </div>

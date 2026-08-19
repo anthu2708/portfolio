@@ -101,16 +101,26 @@ export default function ProjectCarousel({ medallionShape = "rect", showCatalogNu
       </div>
 
       <div className="flex min-w-70 max-w-120 flex-1 basis-85 flex-col gap-[18px]">
-        <p className="m-0 font-mono text-[11px] tracking-[.28em] text-[#6f737c] uppercase">II — Projects</p>
+        <p className="m-0 font-mono text-[11px] tracking-[.28em] text-[#6f737c] uppercase">II - Projects</p>
         <p className="m-0 font-mono text-[11px] tracking-[.24em] text-[#8b8f98] uppercase">
           {active.no} · {active.kind}
         </p>
-        <h2 className="m-0 font-display text-[clamp(28px,3.4vw,42px)] leading-tight font-semibold text-paper-100">
+        <h2 className="m-0 min-h-[2.5em] font-display text-[clamp(28px,3.4vw,42px)] leading-tight font-semibold text-paper-100">
           {active.name}
         </h2>
         <div className="h-px w-14 bg-gradient-to-r from-[rgba(215,217,222,.7)] to-transparent" />
-        <p className="m-0 max-w-[44ch] text-base leading-relaxed text-paper-300 text-pretty">{active.overview}</p>
+        <p className="m-0 min-h-[13rem] max-w-[44ch] text-base leading-relaxed text-paper-300 text-pretty">{active.overview}</p>
         <p className="m-0 font-mono text-xs leading-loose tracking-[.08em] text-paper-500">{active.meta}</p>
+        {active.link && (
+          <a
+            href={active.link}
+            target="_blank"
+            rel="noreferrer"
+            className="w-fit border-b border-[#c8cad0]/35 font-mono text-xs tracking-[.08em] text-[#c8cad0] no-underline hover:border-[#f0f1f3]/70 hover:text-[#f0f1f3]"
+          >
+            Visit site ↗
+          </a>
+        )}
         <div className="mt-3 flex items-center gap-4">
           {[
             { d: -1, glyph: "↑" },

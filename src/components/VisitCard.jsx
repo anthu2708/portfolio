@@ -32,10 +32,12 @@ const ICONS = {
 };
 
 const BASE_TILT = { rx: 6, ry: -4 };
+const BASE_GLOW = { x: 30, y: 20 };
 
 export default function VisitCard() {
   const cardRef = useRef(null);
   const [tilt, setTilt] = useState(BASE_TILT);
+  const [glow, setGlow] = useState(BASE_GLOW);
   const [active, setActive] = useState(false);
 
   const onMove = (e) => {
@@ -45,17 +47,19 @@ export default function VisitCard() {
     const px = (e.clientX - rect.left) / rect.width;
     const py = (e.clientY - rect.top) / rect.height;
     setTilt({ rx: -(py - 0.5) * 28, ry: (px - 0.5) * 36 });
+    setGlow({ x: px * 100, y: py * 100 });
     setActive(true);
   };
 
   const onLeave = () => {
     setTilt(BASE_TILT);
+    setGlow(BASE_GLOW);
     setActive(false);
   };
 
   return (
     <div id="contact" className="flex flex-1 basis-70 flex-col gap-4">
-      <p className="m-0 font-mono text-[11px] tracking-[.28em] text-[#6f737c] uppercase">IV — Contact</p>
+      <p className="m-0 font-mono text-[11px] tracking-[.28em] text-[#6f737c] uppercase">IV - Contact</p>
 
       {/* The card */}
       <div
@@ -71,12 +75,41 @@ export default function VisitCard() {
             aspectRatio: "1.75 / 1",
             transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
             transformStyle: "preserve-3d",
-            filter: "drop-shadow(0 22px 38px rgba(0,0,0,.65))",
+            filter: "drop-shadow(0 10px 16px rgba(0,0,0,.45))",
             transition: active ? "transform 80ms linear" : "transform 650ms cubic-bezier(.22,1.4,.36,1)",
           }}
         >
-          {/* card face */}
-          <div className="absolute inset-0 rounded-[10px] bg-[linear-gradient(152deg,#cdcfd4_0%,#8d9096_32%,#b2b5bb_54%,#75787e_78%,#a9acb2_100%)]" />
+          {/* outer glow lifting the card off the dark background */}
+          <div
+            className="pointer-events-none absolute -inset-3 rounded-[16px] blur-xl transition-opacity duration-300"
+            style={{
+              background: "radial-gradient(circle, rgba(255,255,255,.16) 0%, rgba(255,255,255,0) 70%)",
+              opacity: active ? 0.9 : 0.5,
+            }}
+          />
+
+          {/* card face - brighter brushed-aluminum gradient */}
+          <div className="absolute inset-0 rounded-[10px] bg-[linear-gradient(152deg,#f4f5f7_0%,#c3c6cb_20%,#eef0f2_36%,#9a9da3_56%,#e2e4e7_78%,#aeb1b7_100%)]" />
+
+          {/* static diagonal foil streak, always visible */}
+          <div
+            className="pointer-events-none absolute inset-0 rounded-[10px] mix-blend-screen"
+            style={{
+              background: `linear-gradient(${115 + tilt.ry * 1.4}deg, rgba(255,255,255,0) 28%, rgba(255,255,255,.85) 47%, rgba(255,255,255,0) 64%)`,
+            }}
+          />
+
+          {/* reflective sheen, follows pointer like light hitting brushed metal */}
+          <div
+            className="pointer-events-none absolute inset-0 rounded-[10px] mix-blend-overlay transition-opacity duration-300"
+            style={{
+              background: `radial-gradient(circle at ${glow.x}% ${glow.y}%, rgba(255,255,255,1) 0%, rgba(255,255,255,.5) 20%, rgba(255,255,255,0) 52%)`,
+              opacity: active ? 1 : 0.7,
+            }}
+          />
+
+          {/* bright rim to separate the card edge from the dark page */}
+          <div className="pointer-events-none absolute inset-0 rounded-[10px] shadow-[0_0_0_1px_rgba(255,255,255,.5)_inset]" />
 
           {/* inner border */}
           <div className="absolute inset-[10px] rounded-[5px] border border-white/20 shadow-[0_2px_0_rgba(255,255,255,.38)_inset,0_-2px_4px_rgba(0,0,0,.3)_inset] flex flex-col justify-between px-[16px] py-[14px]">
@@ -127,7 +160,7 @@ export default function VisitCard() {
       </div>
 
       {/* icon links */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 mt-3">
         {links.map((l) => (
           <a
             key={l.href}

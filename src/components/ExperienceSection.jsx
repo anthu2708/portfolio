@@ -9,16 +9,15 @@ const experiences = [
       "Consolidated two Apache Spark pipelines on AWS EMR into a shared workflow, unifying duplicated transformations and reducing EMR processing cost by 15%.",
       "Built an Apache Spark garbage-collection job in Java on AWS EMR with dry-run and backup safeguards, running weekly cleanup across 8 Aurora tables in 10,000-row batches.",
       "Migrated a service out of a shared Kubernetes monorepo onto standalone AWS EKS, reducing CI/CD build time from over 1 hour to 8 minutes.",
-      "Built a custom Claude Skill to automate Spark reprocessing on AWS EMR, reducing setup time from 10 minutes to 1 minute per job.",
     ],
   },
   {
     role: "Undergraduate Teaching Assistant",
     company: "University of British Columbia",
-    period: "Sep 2025 – Present",
+    period: "Sep 2025 – Dec 2025",
     location: "Vancouver, BC",
     bullets: [
-      "Assisted in teaching MATH 100 to over 100 students, leading tutorials and clarifying core calculus concepts.",
+      "Assisted in teaching MATH to over 100 students, leading tutorials and clarifying core calculus concepts.",
       "Coordinated with instructors to align assessments and provide feedback, improving student support.",
     ],
   },
@@ -43,7 +42,7 @@ export default function ExperienceSection() {
     >
       <div className="mx-auto max-w-[1140px]">
         <p className="m-0 mb-10 font-mono text-[11px] tracking-[.28em] text-[#6f737c] uppercase">
-          III — Experience
+          III - Experience
         </p>
 
         <div className="flex flex-col gap-12">
