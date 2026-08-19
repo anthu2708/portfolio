@@ -24,9 +24,13 @@ export default function App() {
               Curriculum Vitae
             </h2>
             <p className="m-0 max-w-[40ch] text-[15px] leading-loose text-paper-300">
-              Link your PDF here.{" "}
-              <a href="#cv" className="border-b border-[#c8cad0]/35 text-[#c8cad0] hover:border-[#f0f1f3]/70 hover:text-[#f0f1f3]">
-                Download CV
+              <a
+                href="/Resume-AnPhung.pdf"
+                target="_blank"
+                rel="noreferrer"
+                className="border-b border-[#c8cad0]/35 text-[#c8cad0] hover:border-[#f0f1f3]/70 hover:text-[#f0f1f3]"
+              >
+                View CV
               </a>
             </p>
           </div>

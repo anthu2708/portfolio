@@ -8,7 +8,7 @@ const pad = (v) => (v < 10 ? `0${v}` : String(v));
 const wrap = (v, n) => ((v % n) + n) % n;
 
 /** Plaque stays put; the stack slides one step per flip and loops 1 → 2 → 3 → 1. */
-export default function ProjectCarousel({ medallionShape = "oval", showCatalogNumbers = true }) {
+export default function ProjectCarousel({ medallionShape = "rect", showCatalogNumbers = true }) {
   const [index, setIndex] = useState(0);
   const [sliding, setSliding] = useState(0);
   const timer = useRef(null);
@@ -57,6 +57,7 @@ export default function ProjectCarousel({ medallionShape = "oval", showCatalogNu
           style={{
             transform: `translateY(calc(${-sliding} * ${STEP}))`,
             transition: sliding ? "transform .56s cubic-bezier(.3,.8,.2,1)" : "none",
+            willChange: "transform",
           }}
         >
           {OFFSETS.map((off) => {
@@ -66,25 +67,26 @@ export default function ProjectCarousel({ medallionShape = "oval", showCatalogNu
               <div
                 key={off}
                 onClick={() => step(off)}
-                className="absolute left-0 w-full cursor-pointer transition-[opacity,transform,filter] duration-[550ms] [filter:drop-shadow(0_30px_46px_rgba(0,0,0,.55))] hover:[filter:drop-shadow(0_40px_62px_rgba(0,0,0,.6))_brightness(1.08)_contrast(1.04)]"
+                className="absolute left-0 w-full cursor-pointer [filter:drop-shadow(0_30px_46px_rgba(0,0,0,.55))] hover:[filter:drop-shadow(0_40px_62px_rgba(0,0,0,.6))_brightness(1.08)_contrast(1.04)]"
                 style={{
                   top: `calc(${off} * ${STEP})`,
                   height: "min(54vh, 440px)",
                   opacity: isActive ? 1 : 0.28,
                   transform: `scale(${isActive ? 1 : 0.88})`,
+                  transition: sliding
+                    ? "opacity .56s cubic-bezier(.3,.8,.2,1), transform .56s cubic-bezier(.3,.8,.2,1), filter .56s cubic-bezier(.3,.8,.2,1)"
+                    : "filter .2s ease",
+                  willChange: "transform, opacity",
                 }}
               >
                 <div className="metal-plaque scalloped absolute inset-0" />
                 <div className="absolute inset-[18px] flex flex-col gap-4 border border-white/20 px-[22px] pt-[22px] pb-[18px] shadow-[0_2px_0_rgba(255,255,255,.45)_inset,0_-2px_3px_rgba(0,0,0,.32)_inset]">
                   <div className="relative flex-1 shadow-[0_-2px_4px_rgba(255,255,255,.4)_inset,0_3px_6px_rgba(0,0,0,.35)_inset]">
                     <div className="absolute inset-0" style={{ clipPath: masks[medallionShape] ?? masks.oval }}>
-                      <ImageSlot id={`plaque-${p.slug}`} placeholder="emboss image" />
+                      <ImageSlot id={`plaque-${p.slug}`} placeholder="emboss image" defaultSrc={p.image} />
                     </div>
                   </div>
-                  <div className="flex items-baseline justify-between gap-3">
-                    <span className="engraved font-display text-[clamp(11px,1.2vw,16px)] font-semibold tracking-[.12em] whitespace-nowrap uppercase">
-                      {p.name}
-                    </span>
+                  <div className="flex items-baseline justify-end gap-3">
                     {showCatalogNumbers && (
                       <span className="engraved shrink-0 font-mono text-[clamp(9px,.85vw,12px)] whitespace-nowrap">
                         {p.no}

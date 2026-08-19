@@ -4,10 +4,10 @@ import Ransom from "./Ransom.jsx";
 import { createDrag } from "../lib/drag.js";
 
 const DEFAULT_POS = {
-  contact:    { x: 5.4,  y: 7.5  },
-  cv:         { x: 7.6,  y: 50.1 },
-  experience: { x: 42,   y: 80   },
-  projects:   { x: 59.7, y: 9.3  },
+  contact:    { x: 5.4,   y: 7.5   },
+  cv:         { x: 12.82, y: 58.19 },
+  experience: { x: 71.81, y: 85.93 },
+  projects:   { x: 53.87, y: 7.12  },
 };
 
 const PAPER_3  = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' seed='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23p)' opacity='0.16'/%3E%3C/svg%3E\")";
@@ -91,21 +91,22 @@ export default function TrinketBox({ collageWords = "about me / an phung" }) {
                 const cvItem = item("cv", "#cv");
                 return <div
                 {...cvItem}
-                className={`absolute flex w-[22%] flex-col gap-[3px] rotate-[1.6deg] px-[6px] pt-[6px] pb-[10px] text-[#2c2620] shadow-[0_6px_16px_rgba(0,0,0,.5)] ${grab}`}
+                className={`absolute flex w-[34%] flex-col gap-[3px] rotate-[1.6deg] px-[6px] pt-[6px] pb-[10px] text-[#2c2620] shadow-[0_6px_16px_rgba(0,0,0,.5)] ${grab}`}
                 style={{
                   ...cvItem.style,
+                  containerType: "inline-size",
                   clipPath: RECEIPT_EDGE,
                   backgroundColor: "#f4f1e7",
                   backgroundImage: `${PAPER_9}, linear-gradient(180deg,#f8f5ec,#e9e4d5)`,
                 }}
               >
-                <span className="text-center font-mono text-[5px] tracking-[.16em] uppercase">curriculum vitae</span>
+                <span className="text-center font-mono text-[5cqw] tracking-[.16em] uppercase">curriculum vitae</span>
                 <span className="block h-px bg-[repeating-linear-gradient(90deg,#2c2620_0_2px,transparent_2px_4px)]" />
-                <span className="flex justify-between font-mono text-[5px]"><span>an phung</span><span>pdf</span></span>
-                <span className="flex justify-between font-mono text-[5px]"><span>planview</span><span>2026</span></span>
-                <span className="flex justify-between font-mono text-[5px]"><span>thang long</span><span>2024</span></span>
+                <span className="flex justify-between font-mono text-[5cqw]"><span>an phung</span><span>pdf</span></span>
+                <span className="flex justify-between font-mono text-[5cqw]"><span>planview</span><span>2026</span></span>
+                <span className="flex justify-between font-mono text-[5cqw]"><span>thang long</span><span>2024</span></span>
                 <span className="block h-px bg-[repeating-linear-gradient(90deg,#2c2620_0_2px,transparent_2px_4px)]" />
-                <span className="text-center font-mono text-[5px] tracking-[.16em] uppercase">tap to open</span>
+                <span className="text-center font-mono text-[5cqw] tracking-[.16em] uppercase">tap to open</span>
               </div>;
               })()}
 
