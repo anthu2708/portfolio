@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Cinzel", serif;
+  --font-body: "Spectral", Georgia, serif;
+  --font-mono: "Courier Prime", monospace;
+
+  --color-ink-900: #101116;
+  --color-ink-800: #17181c;
+  --color-ink-700: #24262c;
+  --color-paper-100: #e8e9ec;
+  --color-paper-300: #a3a7b0;
+  --color-paper-500: #71757e;
+  --color-velvet-700: #6a171d;
+  --color-velvet-800: #4d1116;
+  --color-velvet-900: #480f14;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--color-ink-800);
+  scroll-behavior: smooth;
+}
+
+/* --- Metal surfaces (kept in CSS: long gradient stacks are unreadable as utilities) --- */
+.metal-base {
+  background-color: #8f9399;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='h'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.05' numOctaves='3' seed='4'/%3E%3CfeDiffuseLighting lighting-color='%23bcbfc5' surfaceScale='3'%3E%3CfeDistantLight azimuth='235' elevation='56'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='420' height='420' filter='url(%23h)'/%3E%3C/svg%3E"),
+    linear-gradient(160deg, #c9cbd0 0%, #82858b 26%, #adb0b6 46%, #6a6d73 70%, #a2a5ab 100%);
+  background-size: 420px 420px, 100% 100%;
+  background-blend-mode: overlay, normal;
+}
+.metal-lid {
+  background-color: #8f9399;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='h'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.05' numOctaves='3' seed='9'/%3E%3CfeDiffuseLighting lighting-color='%23c0c3c9' surfaceScale='3.4'%3E%3CfeDistantLight azimuth='225' elevation='54'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='420' height='420' filter='url(%23h)'/%3E%3C/svg%3E"),
+    linear-gradient(155deg, #d2d4d9 0%, #8a8d93 24%, #b4b7bd 46%, #70737a 70%, #a8abb1 100%);
+  background-size: 420px 420px, 100% 100%;
+  background-blend-mode: overlay, normal;
+}
+.metal-lid-back {
+  background-color: #8b8f95;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='h'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.06' numOctaves='3' seed='2'/%3E%3CfeDiffuseLighting lighting-color='%23b6b9bf' surfaceScale='2.4'%3E%3CfeDistantLight azimuth='215' elevation='50'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='420' height='420' filter='url(%23h)'/%3E%3C/svg%3E"),
+    linear-gradient(155deg, #b9bcc1 0%, #7c7f85 30%, #a3a6ac 52%, #666a70 78%, #9a9da3 100%);
+  background-size: 420px 420px, 100% 100%;
+  background-blend-mode: overlay, normal;
+}
+.metal-plaque {
+  background-color: #8f9399;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='h'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.05' numOctaves='3' seed='7'/%3E%3CfeDiffuseLighting lighting-color='%23bcbfc5' surfaceScale='3.2'%3E%3CfeDistantLight azimuth='235' elevation='56'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='420' height='420' filter='url(%23h)'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(28deg, rgba(255, 255, 255, 0.04) 0 3px, rgba(0, 0, 0, 0.05) 3px 7px),
+    linear-gradient(155deg, #c9cbd0 0%, #82858b 24%, #adb0b6 44%, #6a6d73 68%, #a2a5ab 88%, #787b81 100%);
+  background-size: 420px 420px, 100% 100%, 100% 100%;
+  background-blend-mode: overlay, normal, normal;
+}
+.metal-strip {
+  background-image: linear-gradient(160deg, #cbcdd2 0%, #8a8d93 45%, #787b81 100%);
+}
+.velvet {
+  background-color: var(--color-velvet-800);
+  background-image: radial-gradient(120% 90% at 30% 10%, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0) 55%),
+    repeating-linear-gradient(26deg, rgba(255, 255, 255, 0.035) 0 2px, rgba(0, 0, 0, 0.06) 2px 5px),
+    linear-gradient(170deg, var(--color-velvet-700) 0%, var(--color-velvet-900) 55%, #5a1319 100%);
+}
+
+/* engraved / embossed type */
+.engraved {
+  color: #75787e;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.65), 0 -1px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* scalloped plaque edge */
+.scalloped {
+  clip-path: polygon(1.90% 1.90%, 5.60% 0.00%, 9.30% 1.90%, 13.00% 0.00%, 16.70% 1.90%, 20.40% 0.00%, 24.10% 1.90%, 27.80% 0.00%, 31.50% 1.90%, 35.20% 0.00%, 38.90% 1.90%, 42.60% 0.00%, 46.30% 1.90%, 50.00% 0.00%, 53.70% 1.90%, 57.40% 0.00%, 61.10% 1.90%, 64.80% 0.00%, 68.50% 1.90%, 72.20% 0.00%, 75.90% 1.90%, 79.60% 0.00%, 83.30% 1.90%, 87.00% 0.00%, 90.70% 1.90%, 94.40% 0.00%, 98.10% 1.90%, 100.00% 5.60%, 98.10% 9.30%, 100.00% 13.00%, 98.10% 16.70%, 100.00% 20.40%, 98.10% 24.10%, 100.00% 27.80%, 98.10% 31.50%, 100.00% 35.20%, 98.10% 38.90%, 100.00% 42.60%, 98.10% 46.30%, 100.00% 50.00%, 98.10% 53.70%, 100.00% 57.40%, 98.10% 61.10%, 100.00% 64.80%, 98.10% 68.50%, 100.00% 72.20%, 98.10% 75.90%, 100.00% 79.60%, 98.10% 83.30%, 100.00% 87.00%, 98.10% 90.70%, 100.00% 94.40%, 98.10% 98.10%, 94.40% 100.00%, 90.70% 98.10%, 87.00% 100.00%, 83.30% 98.10%, 79.60% 100.00%, 75.90% 98.10%, 72.20% 100.00%, 68.50% 98.10%, 64.80% 100.00%, 61.10% 98.10%, 57.40% 100.00%, 53.70% 98.10%, 50.00% 100.00%, 46.30% 98.10%, 42.60% 100.00%, 38.90% 98.10%, 35.20% 100.00%, 31.50% 98.10%, 27.80% 100.00%, 24.10% 98.10%, 20.40% 100.00%, 16.70% 98.10%, 13.00% 100.00%, 9.30% 98.10%, 5.60% 100.00%, 1.90% 98.10%, 0.00% 94.40%, 1.90% 90.70%, 0.00% 87.00%, 1.90% 83.30%, 0.00% 79.60%, 1.90% 75.90%, 0.00% 72.20%, 1.90% 68.50%, 0.00% 64.80%, 1.90% 61.10%, 0.00% 57.40%, 1.90% 53.70%, 0.00% 50.00%, 1.90% 46.30%, 0.00% 42.60%, 1.90% 38.90%, 0.00% 35.20%, 1.90% 31.50%, 0.00% 27.80%, 1.90% 24.10%, 0.00% 20.40%, 1.90% 16.70%, 0.00% 13.00%, 1.90% 9.30%, 0.00% 5.60%);
+}
+
+/* receipt torn edge */
+.receipt-edge {
+  clip-path: polygon(
+    0% 0%, 100% 0%, 100% 94%, 92% 100%, 83% 94%, 75% 100%, 67% 94%, 58% 100%,
+    50% 94%, 42% 100%, 33% 94%, 25% 100%, 17% 94%, 8% 100%, 0% 94%
+  );
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+.animate-breathe { animation: breathe 3.4s ease-in-out infinite; }
