@@ -22,7 +22,7 @@ export default function App() {
             <p className="m-0 font-mono text-[11px] tracking-[.28em] text-[#6f737c] uppercase">V - CV</p>
               <h2 className="m-0 font-display text-[clamp(22px,2.4vw,30px)] font-semibold text-paper-100">
                   <a
-                      href="/Resume-AnPhung.pdf"
+                      href="/Resume-AnPhung.pdf?v=20260902"
                       target="_blank"
                       rel="noreferrer"
                       className="border-b border-[#c8cad0]/35 text-[#c8cad0] hover:border-[#f0f1f3]/70 hover:text-[#f0f1f3]"
